@@ -13,7 +13,7 @@ class AccountSerializer(DjangoCassandraModelSerializer):
         fields=('username','password')'''
 
 class Employee(object):
-    def __init__(self,legacyempid,newempid,paygroup=None,payperiod=None,paydate=None,comparecodes=None,amount=None,hours=None,taxablewages=None):
+    def __init__(self,legacyempid,newempid,paygroup=None,payperiod=None,paydate=None,comparecodes=None,amount=None,hours=None,taxablewages=None,status=None):
         self.legacyempid=legacyempid;
         self.newempid=newempid
         self.paygroup=paygroup
@@ -23,6 +23,7 @@ class Employee(object):
         self.hours =hours
         self.amount=amount
         self.taxablewages=taxablewages
+        self.status=status
 
 class EmployeeSeriaziers(serializers.Serializer):
         legacyempid=serializers.IntegerField()
@@ -34,6 +35,7 @@ class EmployeeSeriaziers(serializers.Serializer):
         hours=serializers.CharField(allow_null=True)
         amount=serializers.CharField(allow_null=True)
         taxablewages=serializers.CharField(allow_null=True)
+        status=serializers.CharField(allow_null=True)
 
 
 

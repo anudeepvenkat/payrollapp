@@ -64,6 +64,12 @@ def LegacyEmpData(request):
         files=request.FILES.getlist('file')
         for file in files:
             if file is not None:
+                legacyemployeedata = LegacyEmployeeData.objects.all()
+                for i in legacyemployeedata:
+                    if i.client_id == clientId:
+                        i.delete()
+                    else:
+                        continue
                 df=pd.read_csv(file)
                 for index, row in df.iterrows():
                     legacyemployeedata = LegacyEmployeeData(
@@ -98,10 +104,16 @@ def LegacyEmpData(request):
 @csrf_exempt
 def NewEmpData(request):
     if request.method=='POST':
-        clientId=session["clientId"]
+        clientId = session["clientId"]
         files=request.FILES.getlist('file')
         for file in files:
             if file is not None:
+                newemployeedata = NewEmployeeData.objects.all()
+                for i in newemployeedata:
+                    if i.client_id == clientId:
+                        i.delete()
+                    else:
+                        continue
                 df=pd.read_csv(file)
                 for index, row in df.iterrows():
                     newemployeedata = NewEmployeeData(
@@ -137,10 +149,16 @@ def NewEmpData(request):
 @csrf_exempt
 def LegacyEmpPayData(request):
     if request.method=='POST':
-        clientId=session["clientId"]
+        clientId = session["clientId"]
         files=request.FILES.getlist('file')
         for file in files:
             if file is not None:
+                legacypaydata = LegacyEmployeePayData.objects.all()
+                for i in legacypaydata:
+                    if i.client_id == clientId:
+                        i.delete()
+                    else:
+                        continue
                 df=pd.read_csv(file)
                 for index, row in df.iterrows():
                     legacypaydata = LegacyEmployeePayData(client_id=clientId,
@@ -149,7 +167,7 @@ def LegacyEmpPayData(request):
                                                           pay_group=row['*PAY_GROUP'],
                                                           pay_period=row["PAY_PERIOD"],
                                                           pay_date=row["*PAY_DATE"],
-                                                          pay_component=row["*PAY_COMPONENT"],
+                                                          pay_component=row["*PAY_COMPONENT"].upper(),
                                                           tax_auth=row["TAX_AUTH"],
                                                           additional_pay_component=row["PAY_COMPONENT_ADD1"],
                                                           hours=row["HOURS"],
@@ -182,10 +200,16 @@ def LegacyEmpPayData(request):
 @csrf_exempt
 def NewEmpPayData(request):
     if request.method=='POST':
-        clientId=session["clientId"]
+        clientId = session["clientId"]
         files=request.FILES.getlist('file')
         for file in files:
             if file is not None:
+                newpaydata = NewEmployeePayData.objects.all()
+                for i in newpaydata:
+                    if i.client_id == clientId:
+                        i.delete()
+                    else:
+                        continue
                 df=pd.read_csv(file)
                 for index, row in df.iterrows():
                     newpaydata = NewEmployeePayData(client_id=clientId,
@@ -194,7 +218,7 @@ def NewEmpPayData(request):
                                                     pay_group=row['*PAY_GROUP'],
                                                     pay_period=row["PAY_PERIOD"],
                                                     pay_date=row["*PAY_DATE"],
-                                                    pay_component=row["*PAY_COMPONENT"],
+                                                    pay_component=row["*PAY_COMPONENT"].upper(),
                                                     tax_auth=row["TAX_AUTH"],
                                                     additional_pay_component=row["PAY_COMPONENT_ADD1"],
                                                     hours=row["HOURS"],
@@ -226,10 +250,16 @@ def NewEmpPayData(request):
 @csrf_exempt
 def EmpMappingData(request):
     if request.method=='POST':
-        clientId=session["clientId"]
+        clientId = session["clientId"]
         files=request.FILES.getlist('file')
         for file in files:
             if file is not None:
+                employeemappingdata = EmployeeMappingData.objects.all()
+                for i in employeemappingdata:
+                    if i.client_id == clientId:
+                        i.delete()
+                    else:
+                        continue
                 df=pd.read_csv(file)
                 for index, row in df.iterrows():
                     employeemappingdata = EmployeeMappingData(client_id=clientId,
@@ -261,21 +291,26 @@ def EmpMappingData(request):
 @csrf_exempt
 def LegacyPayComponentMapping(request):
     if request.method=='POST':
-        clientId=session["clientId"]
+        clientId = session["clientId"]
+        #clientId = "123"
         files=request.FILES.getlist('file')
         for file in files:
             if file is not None:
+                legacypaycomponentmapping=LegacyPayComponentMappingData.objects.all()
+                for i in legacypaycomponentmapping:
+                    if i.client_id==clientId:
+                        i.delete()
+                    else:
+                        continue
                 df=pd.read_csv(file)
                 for index, row in df.iterrows():
                     legacypaycomponentmapping = LegacyPayComponentMappingData(client_id=clientId,
-                                                                              pay_component=row["*PAY_COMPONENT"],
+                                                                              pay_component=row["*PAY_COMPONENT"].upper(),
                                                                               tax_auth=row["TAX_AUTH"],
-                                                                              additional_pay_component=row[
-                                                                                  "PAY_COMPONENT_ADD1"],
-                                                                              compare_code=row["*COMPARE_CODE"],
+                                                                              additional_pay_component=row["PAY_COMPONENT_ADD1"],
+                                                                              compare_code=row["*COMPARE_CODE"].lower(),
                                                                               flip_amount_sign=row["*FLIP_AMOUNT_SIGN"],
-                                                                              hours_proration_factor=row[
-                                                                                  "*HOURS_PRORATION_FACTOR"],
+                                                                              hours_proration_factor=row["*HOURS_PRORATION_FACTOR"],
                                                                               amount=row["*AMOUNT_PRORATION_FACTOR"],
                                                                               taxable_wages_Proration_Factor=row[
                                                                                   "*TAXABLE_WAGES_PRORATION_FACTOR"],
@@ -304,18 +339,24 @@ def LegacyPayComponentMapping(request):
 @csrf_exempt
 def NewPayComponentMapping(request):
     if request.method=='POST':
-        clientId=session["clientId"]
+        clientId = session["clientId"]
         files=request.FILES.getlist('file')
         for file in files:
             if file is not None:
+                newpaycomponentmapping = NewPayComponentMappingData.objects.all()
+                for i in newpaycomponentmapping:
+                    if i.client_id == clientId:
+                        i.delete()
+                    else:
+                        continue
                 df=pd.read_csv(file)
                 for index, row in df.iterrows():
                     newpaycomponentmappingdata = NewPayComponentMappingData(
                         client_id=clientId,
-                        pay_component=row["PAY_COMPONENT"],
+                        pay_component=row["PAY_COMPONENT"].upper(),
                         tax_auth=row["TAX_AUTH"],
                         additional_pay_component=row["PAY_COMPONENT_ADD1"],
-                        compare_code=row["COMPARE_CODE"],
+                        compare_code=row["COMPARE_CODE"].lower(),
                         flip_amount_sign=row["*FLIP_AMOUNT_SIGN"],
                         hours_proration_factor=row["*HOURS_PRORATION_FACTOR"],
                         amount=row["*AMOUNT_PRORATION_FACTOR"],
@@ -345,12 +386,13 @@ def NewPayComponentMapping(request):
 
 class Comparision(APIView):
     def get(self, request):
-        employeemappingdata=EmployeeMappingData.objects.all()
+        clientId = session["clientId"]
+        employeemappingdata=EmployeeMappingData.objects(client_id=clientId)
         response_data = {}
         employeedatalist=[]
         for empmap in employeemappingdata:
-            legacypaydata=LegacyEmployeePayData.objects(emp_id=empmap.legacy_employee_id)
-            newpaydata=NewEmployeePayData.objects(emp_id=empmap.new_employee_id)
+            legacypaydata=LegacyEmployeePayData.objects(emp_id=empmap.legacy_employee_id,client_id=clientId)
+            newpaydata=NewEmployeePayData.objects(emp_id=empmap.new_employee_id,client_id=clientId)
             legacyempid=empmap.legacy_employee_id
             newempid=empmap.new_employee_id
             comparecode = []
@@ -366,7 +408,7 @@ class Comparision(APIView):
                 paygroup=legpay.pay_group
                 payperiod=legpay.pay_period
                 paydate=legpay.pay_date
-                legacypaycomponentmapping = LegacyPayComponentMappingData.objects(pay_component=legpay.pay_component)
+                legacypaycomponentmapping = LegacyPayComponentMappingData.objects(pay_component=legpay.pay_component,client_id=clientId)
                 for i in legacypaycomponentmapping:
                     comparecode.append(i.compare_code)
                     uniquecomparecodes=[]
@@ -376,23 +418,24 @@ class Comparision(APIView):
                 legacyhours[k]=0
                 legacytaxablewages[k]=0
             for legpp in legacypaydata:
-                legacypaycomponentmapping1 = LegacyPayComponentMappingData.objects(pay_component=legpp.pay_component)
+                legacypaycomponentmapping1 = LegacyPayComponentMappingData.objects(pay_component=legpp.pay_component,client_id=clientId)
                 for h in legacypaycomponentmapping1:
                     amount[h.compare_code]=amount[h.compare_code]+legpp.amount
                     legacyhours[h.compare_code]=legacyhours[h.compare_code]+legpp.hours
                     legacytaxablewages[h.compare_code]=legacytaxablewages[h.compare_code]+legpp.taxable
             for newpay in newpaydata:
-                newpaycomponentmapping=NewPayComponentMappingData.objects(pay_component=newpay.pay_component)
+                newpaycomponentmapping=NewPayComponentMappingData.objects(pay_component=newpay.pay_component,client_id=clientId)
                 for npc in newpaycomponentmapping:
                     newcomparecodes.append(npc.compare_code)
                     newuniquecomparecodes=[]
                     newuniquecomparecodes=unique(newcomparecodes)
+                print(newuniquecomparecodes)
             for n in newuniquecomparecodes:
                 newamount[n] = 0
                 newhours[n] = 0
                 newtaxablewages[n] = 0
             for newpay1 in newpaydata:
-                newpaycomponentmapping1=NewPayComponentMappingData.objects(pay_component=newpay1.pay_component)
+                newpaycomponentmapping1=NewPayComponentMappingData.objects(pay_component=newpay1.pay_component,client_id=clientId)
                 for npc1 in newpaycomponentmapping1:
                     newamount[npc1.compare_code] = newamount[npc1.compare_code] + newpay1.amount
                     newhours[npc1.compare_code] = newhours[npc1.compare_code] + newpay1.hours
@@ -408,19 +451,11 @@ class Comparision(APIView):
             hourscomparision=comparedict(legacyhours,newhours,newuniquecomparecodes)
             taxablewagescomparision=comparedict(legacytaxablewages,newtaxablewages,newuniquecomparecodes)
             for i in newuniquecomparecodes:
-                if(amountcomparision[i]==0):
-                    amount="In Sync"
+                if(amountcomparision[i]==0 and taxablewagescomparision[i] == 0 and taxablewagescomparision[i] == 0):
+                    status="Data Match"
                 else:
-                    amount=amountcomparision[i]
-                if (hourscomparision[i] == 0):
-                    hours = "In Sync"
-                else:
-                    hours = hourscomparision[i]
-                if (taxablewagescomparision[i] == 0):
-                    taxablewages = "In Sync"
-                else:
-                    taxablewages = taxablewagescomparision[i]
-                employeedata = Employee(legacyempid, newempid, paygroup, payperiod, paydate, i, amount,hours,taxablewages)
+                    status="Data Discrepancy"
+                employeedata = Employee(legacyempid, newempid, paygroup, payperiod, paydate, i, amountcomparision[i],hourscomparision[i],taxablewagescomparision[i],status)
                 employeeeserializer = EmployeeSeriaziers(employeedata)
                 employeedatalist.append(employeeeserializer.data)
                 response_data['ComparisionData'] = employeedatalist
@@ -446,7 +481,7 @@ def comparedict(dict1,dict2,newuniquecomparecodes):
     return res
 
 
-@csrf_exempt
+'''@csrf_exempt
 def authenticateuser1(request):
     data = json.loads(request.body)
     username = data.get("username", None)
@@ -470,7 +505,7 @@ def FileUploadView(request):
     print(request.body)
     if request.method=='POST':
         clientId='Deloitte89'
-        '''print("clien id is",clientId)'''
+        print("clien id is",clientId)
         files=request.FILES.getlist('file')
         print(files)
         for f in files:
@@ -612,7 +647,7 @@ def FileUploadView(request):
     return HttpResponse(
         json.dumps(response_data),
         content_type="application/json"
-    )
+    )'''
 
 
 
