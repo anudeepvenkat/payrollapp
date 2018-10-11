@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   ui:
-    image: ui:1.3
+    image: payrollui:1.0
     container_name: ui
     ports:
       - 3000:80
@@ -14,7 +14,7 @@ services:
     volumes:
       - ./database/data:/var/lib/cassandra
   app:
-    image: payrollapp:1.3
+    image: payrollapp:1.0
     container_name: app
     command: bash -c "sleep 30 && python manage.py sync_cassandra && gunicorn --bind 0.0.0.0:8000 CompareEdge.wsgi"
     depends_on:
