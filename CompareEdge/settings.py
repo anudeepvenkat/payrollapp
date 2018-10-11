@@ -92,7 +92,7 @@ DATABASES = {
         'ENGINE': 'django_cassandra_engine',
         'NAME': 'payroll',
         'TEST_NAME': 'test_db',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'OPTIONS': {
             'replication': {
                 'strategy_class': 'SimpleStrategy',
